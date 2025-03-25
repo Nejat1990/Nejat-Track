@@ -79,33 +79,30 @@ function updateStatus(message) {
 }
 
 // 🖼️ Bilder anzeigen (verpixelt oder klar)
-function showNewImages(removePixelation) {
-    const imageContainer = document.getElementById("additional-images");
-
-    // Sicherstellen, dass der Container existiert und leeren
-    if (!imageContainer) {
-        console.error("Image container not found!");
-        return;
-    }
+function showNewImages() {
+    console.log("showNewImages() wird aufgerufen");
     
-    // Leeren der bestehenden Bilder, bevor neue hinzugefügt werden
-    imageContainer.innerHTML = '';
+    // Stelle sicher, dass der Container sichtbar ist
+    document.getElementById("new-images").style.display = "block"; 
 
     const newImages = ['bild4.jpg', 'bild5.jpg', 'bild6.jpg'];
+    const additionalImagesContainer = document.getElementById("additional-images");
+    
+    // Lösche vorherige Bilder, falls vorhanden
+    additionalImagesContainer.innerHTML = "";
 
-    newImages.forEach(imageSrc => {
+    newImages.forEach(function(imageSrc) {
+        console.log(`Bild wird hinzugefügt: ${imageSrc}`);
+        
         const imgElement = document.createElement("img");
         imgElement.src = imageSrc;
         imgElement.alt = "Weitere Bilder";
         
-        // Verpixelte Bilder hinzufügen, wenn `removePixelation` false ist
-        if (!removePixelation) {
-            imgElement.classList.add('pixelated');
-        }
+        // Verpixelte Bilder hinzufügen
+        imgElement.classList.add('pixelated'); 
 
-        imageContainer.appendChild(imgElement);
+        additionalImagesContainer.appendChild(imgElement);
     });
 
-    // Die Nachricht anzeigen
     document.getElementById("message").style.display = "block";
 }
