@@ -1,29 +1,60 @@
-/* Stil für die Bilder */
-.pixelated {
-    width: 300px; /* Feste Breite */
-    height: auto; /* Höhe wird automatisch angepasst */
-    filter: blur(20px) contrast(50%) brightness(50%) grayscale(100%); /* Starke Verpixelung */
-    pointer-events: none; /* Verhindert Interaktionen mit verpixelten Bildern */
-    border-radius: 10px; /* Optional: Abgerundete Ecken */
-}
-
 /* Container für Bilder */
 .image-container {
-    display: flex;
-    justify-content: center; /* Bilder mittig ausrichten */
-    gap: 15px; /* Abstand zwischen den Bildern */
-    flex-wrap: wrap; /* Falls die Bilder nicht in eine Zeile passen, umbrechen */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Flexible Grid-Anordnung */
+    gap: 20px; /* Abstand zwischen den Bildern */
+    justify-content: center; /* Zentrierung */
+    padding: 20px;
 }
 
-/* Neue Bilder nach Standortfreigabe */
+/* Standardbilder (nicht verpixelt) */
+.image-container img {
+    width: 100%; /* Automatische Anpassung */
+    max-width: 300px; /* Maximale Breite */
+    height: auto;
+    border-radius: 12px; /* Abgerundete Ecken für modernen Look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sanfte Schatten */
+    transition: transform 0.3s ease-in-out; /* Animierter Hover-Effekt */
+}
+
+.image-container img:hover {
+    transform: scale(1.05); /* Leicht vergrößern beim Darüberfahren */
+}
+
+/* Neue Bilder (zuerst verpixelt) */
 #new-images {
     display: none; /* Standardmäßig ausgeblendet */
 }
 
+.pixelated {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    filter: blur(20px) contrast(50%) brightness(50%) grayscale(100%);
+    pointer-events: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: filter 0.3s ease-in-out;
+}
+
+/* Entpixelungseffekt nach Standort-Freigabe */
+.pixelated.clear {
+    filter: none; /* Entfernt die Verpixelung */
+    pointer-events: all;
+}
+
+/* Nachricht & Fehler-Status */
 #message {
-    display: none; /* Nachricht erst sichtbar machen, wenn Standort ermittelt wurde */
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
 }
 
 #status {
-    color: red; /* Fehlermeldung in Rot */
+    color: red;
+    font-size: 16px;
+    text-align: center;
 }
