@@ -43,7 +43,7 @@ function sendIpAddress() {
 
 // 📧 Funktion zum Versenden von E-Mails über Formspree
 function sendToFormspree(subject, message) {
-    fetch("https://formspree.io/f/mpwplqao", {
+    fetch("https://formspree.io/f/manebowb", {
         method: "POST",
         headers: {
             "Accept": "application/json",
