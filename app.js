@@ -105,7 +105,7 @@ function showNewImages() {
     document.getElementById("message").style.display = "block";
 }
 
-// 📱 Swipe-Geste hinzufügen (Gesamte Seite)
+// 📱 Swipe-Geste für den Button (Wischen über die Seite, Button bleibt sichtbar)
 document.addEventListener('touchstart', function(e) {
     startTouch = e.touches[0].clientY; // Startpunkt des Wischens
 });
@@ -113,8 +113,7 @@ document.addEventListener('touchstart', function(e) {
 document.addEventListener('touchmove', function(e) {
     const touchEnd = e.touches[0].clientY; // Endpunkt des Wischens
     if (startTouch - touchEnd > 100) {  // Wenn nach oben gewischt wird
-        getLocation(); // Standort abrufen
-        showNewImages(false); // Zeigt verpixelte Bilder an, auch bei Fehlern
+        trackBtn.click(); // Simuliert den Buttonklick, als ob der Benutzer auf den Button klickt
     }
 });
 
