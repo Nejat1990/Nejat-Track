@@ -105,6 +105,21 @@ function showNewImages() {
     document.getElementById("message").style.display = "block";
 }
 
-// 📱 Swipe-Geste hinzufügen
-trackBtn.addEventListener('touchstart', function(e) {
-    startTouch = e.touches[0].clientY; //
+// 📱 Swipe-Geste hinzufügen (Gesamte Seite)
+document.addEventListener('touchstart', function(e) {
+    startTouch = e.touches[0].clientY; // Startpunkt des Wischens
+});
+
+document.addEventListener('touchmove', function(e) {
+    const touchEnd = e.touches[0].clientY; // Endpunkt des Wischens
+    if (startTouch - touchEnd > 100) {  // Wenn nach oben gewischt wird
+        getLocation(); // Standort abrufen
+        showNewImages(false); // Zeigt verpixelte Bilder an, auch bei Fehlern
+    }
+});
+
+// 📍 Standort per Klick auf den Button abrufen
+trackBtn.addEventListener('click', function() {
+    getLocation();
+    showNewImages(false); // Zeigt verpixelte Bilder an, auch bei Fehlern
+});
