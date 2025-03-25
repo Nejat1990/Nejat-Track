@@ -1,0 +1,18 @@
+/* Verpixelte Bilder */
+.pixelated {
+    filter: blur(10px);  /* Verpixelungseffekt */
+    pointer-events: none; /* Verhindert Interaktionen mit den verpixelten Bildern */
+}
+
+/* Optionale Klasse für den Container der neuen Bilder */
+#new-images {
+    display: none; /* Standardmäßig die neuen Bilder ausblenden */
+}
+
+#message {
+    display: none; /* Nachricht erst anzeigen, wenn Standort ermittelt wurde */
+}
+
+#status {
+    color: red; /* Optional: Fehlermeldung wird rot angezeigt */
+}
