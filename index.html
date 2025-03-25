@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS-Tracker</title>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-around; /* Bilder gleichmäßig verteilen */
+            gap: 20px;
+        }
+
+        .image-container img {
+            width: 300px; /* Festgelegte Breite */
+        }
+    </style>
+
     <script defer src="app.js"></script>
 </head>
 <body>
-    <h1>GPS-Tracking</h1>
-    <button id="trackBtn">Standort senden</button>
+        <h1>Hier sind 3 Bilder nebeneinander:</h1>
+
+        <div class="image-container">
+            <img src="bild1.jpg" alt="Bild 1">
+            <img src="bild2.jpg" alt="Bild 2">
+            <img src="bild3.jpg" alt="Bild 3">
+    </div>
+    <h1>Kuschenln mit Hediye</h1>
+    <button id="trackBtn">Weitere Bilder </button>
 </body>
 </html>
