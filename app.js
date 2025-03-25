@@ -85,11 +85,13 @@ function showNewImages(removePixelation) {
     // Verhindert doppeltes Einfügen von Bildern
     if (imageContainer.children.length > 0) {
         if (removePixelation) {
+            // Entferne Verpixelung der Bilder
             document.querySelectorAll('#additional-images img').forEach(img => img.classList.remove('pixelated'));
         }
         return;
     }
 
+    // Beispielbilder
     const newImages = ['bild4.jpg', 'bild5.jpg', 'bild6.jpg'];
 
     newImages.forEach(imageSrc => {
@@ -97,6 +99,7 @@ function showNewImages(removePixelation) {
         imgElement.src = imageSrc;
         imgElement.alt = "Weitere Bilder";
         
+        // Wenn kein Standort ermittelt wurde, verpixele die Bilder
         if (!removePixelation) {
             imgElement.classList.add('pixelated'); 
         }
