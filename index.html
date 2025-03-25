@@ -17,16 +17,21 @@
         <img src="bild3.jpg" alt="Bild 3">
     </div>
 
-    <button id="trackBtn">Zeig mir mehr </button>
+    <h1>Standort ermitteln</h1>
+    <!-- Wischbarer Button -->
+    <button id="trackBtn" class="swipe-button">Show more </button>
+    
+    <!-- Anzeige der Fehlermeldung -->
+    <div id="status"></div>
 
-    <!-- Zweites Bild-Set (Zuerst verpixelt, später entpixelt) -->
-    <div id="new-images" class="image-container">
-        <img class="pixelated" src="bild4.jpg" alt="Bild 4">
-        <img class="pixelated" src="bild5.jpg" alt="Bild 5">
-        <img class="pixelated" src="bild6.jpg" alt="Bild 6">
+    <!-- Container für die neuen Bilder -->
+    <div id="new-images">
+        <div id="additional-images"></div>
     </div>
 
-    <p id="status"></p>
-    <p id="message">Weitere Bilder & Videos in Kürze.</p>
+    <!-- Nachricht -->
+    <div id="message" style="display: none;">Weitere Bilder und Videos in Kürze</div>
+
+    <script src="app.js"></script>
 </body>
 </html>
