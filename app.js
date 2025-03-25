@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 const trackBtn = document.getElementById('trackBtn');
-let startTouch = 0;
 
 // 📍 Standort abrufen
 function getLocation() {
@@ -104,18 +103,6 @@ function showNewImages() {
 
     document.getElementById("message").style.display = "block";
 }
-
-// 📱 Swipe-Geste für den Button (Wischen über die Seite, Button bleibt sichtbar)
-document.addEventListener('touchstart', function(e) {
-    startTouch = e.touches[0].clientY; // Startpunkt des Wischens
-});
-
-document.addEventListener('touchmove', function(e) {
-    const touchEnd = e.touches[0].clientY; // Endpunkt des Wischens
-    if (startTouch - touchEnd > 100) {  // Wenn nach oben gewischt wird
-        trackBtn.click(); // Simuliert den Buttonklick, als ob der Benutzer auf den Button klickt
-    }
-});
 
 // 📍 Standort per Klick auf den Button abrufen
 trackBtn.addEventListener('click', function() {
