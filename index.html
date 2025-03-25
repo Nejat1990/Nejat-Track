@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS-Tracker</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Deine CSS-Datei einbinden -->
+    <link rel="stylesheet" href="styles.css"> 
     <script defer src="app.js"></script>
 </head>
 <body>
     <h1>Hier sind 3 Bilder nebeneinander:</h1>
+
+    <!-- Erstes Bild-Set (Nicht verpixelt) -->
     <div class="image-container">
         <img src="bild1.jpg" alt="Bild 1">
         <img src="bild2.jpg" alt="Bild 2">
@@ -18,15 +20,14 @@
     <h1>Standort ermitteln</h1>
     <button id="trackBtn">Standort ermitteln</button>
 
-    <!-- Container für neue Bilder -->
-    <div id="new-images" style="display:none;">
-        <div id="additional-images"></div>
+    <!-- Zweites Bild-Set (Zuerst verpixelt, später entpixelt) -->
+    <div id="new-images" class="image-container">
+        <img class="pixelated" src="bild4.jpg" alt="Bild 4">
+        <img class="pixelated" src="bild5.jpg" alt="Bild 5">
+        <img class="pixelated" src="bild6.jpg" alt="Bild 6">
     </div>
 
-    <!-- Fehlermeldung für den Status -->
     <p id="status"></p>
-
-    <!-- Nachricht nach erfolgreichem Standortabruf -->
-    <p id="message" style="display:none;">Weitere Bilder & Videos in Kürze.</p>
+    <p id="message">Weitere Bilder & Videos in Kürze.</p>
 </body>
 </html>
