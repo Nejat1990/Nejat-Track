@@ -1,7 +1,7 @@
 // Funktion, um den Standort des Benutzers zu ermitteln und die Bilder hinzuzufügen
 document.getElementById('trackBtn').addEventListener('click', function() {
     getLocation();
-    showNewImages(); // Neue Bilder hinzufügen
+    showNewImages(); // Neue Bilder immer anzeigen, auch bei Fehlern
 });
 
 function getLocation() {
@@ -9,6 +9,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
         document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
+        showNewImages(); // Auch hier werden die Bilder angezeigt, wenn die Geolocation nicht unterstützt wird
     }
 }
 
@@ -36,6 +37,9 @@ function showError(error) {
             document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
             break;
     }
+
+    // Neue Bilder auch bei einem Fehler anzeigen
+    showNewImages();
 }
 
 // Funktion, um neue Bilder hinzuzufügen
@@ -60,4 +64,7 @@ function showNewImages() {
         imgElement.alt = "Weitere Bilder";
         additionalImagesContainer.appendChild(imgElement);
     });
+
+    // Zeige den Text "Weitere Bilder & Videos in Kürze"
+    document.getElementById("message").style.display = "block";
 }
