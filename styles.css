@@ -67,3 +67,30 @@
     font-size: 16px;
     text-align: center;
 }
+
+/* Swipe-Button Design */
+.swipe-button {
+    position: fixed;
+    bottom: 20px;  /* Positioniert den Button am unteren Rand */
+    left: 50%;
+    transform: translateX(-50%); /* Zentriert den Button horizontal */
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #4CAF50; /* Grüner Hintergrund */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Abgerundete Ecken */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sanfter Schatten */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.swipe-button:hover {
+    background-color: #45a049; /* Etwas dunklerer Grünton bei Hover */
+}
+
+/* Swipe-Interaktion */
+.swipe-button.active {
+    transform: translateY(-80px);  /* Button nach oben verschieben */
+}
+
