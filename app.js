@@ -6,10 +6,10 @@ document.getElementById('trackBtn').addEventListener('click', function() {
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
+        navigator.geolocation.getCurrentPosition(sendLocationByEmail, handleLocationError);
     } else {
         document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
-        showNewImages(); // Auch hier werden die Bilder angezeigt, wenn die Geolocation nicht unterstützt wird
+        handleLocationError(); // IP-Adresse ermitteln, wenn keine Geolocation verfügbar ist
     }
 }
 
@@ -29,7 +29,6 @@ function sendLocationByEmail(position) {
     console.log("Standortdaten senden:", locationData);
 
     // Hier könntest du eine Funktion verwenden, die die Daten per E-Mail versendet (z.B. über ein Backend oder ein Formular)
-    // Zum Beispiel mit Fetch API oder AJAX, um die Daten an einen Server zu senden.
     // fetch('/send-location', {
     //   method: 'POST',
     //   body: JSON.stringify(locationData),
@@ -39,24 +38,51 @@ function sendLocationByEmail(position) {
     // });
 }
 
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            document.getElementById("status").innerHTML = "Benutzer hat den Zugriff auf den Standort verweigert.";
-            break;
-        case error.POSITION_UNAVAILABLE:
-            document.getElementById("status").innerHTML = "Standortinformationen sind nicht verfügbar.";
-            break;
-        case error.TIMEOUT:
-            document.getElementById("status").innerHTML = "Die Anfrage zum Abrufen des Standorts hat zu lange gedauert.";
-            break;
-        case error.UNKNOWN_ERROR:
-            document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
-            break;
-    }
+function handleLocationError() {
+    // IP-Adresse ermitteln, wenn Standort nicht verfügbar ist
+    document.getElementById("status").innerHTML = "Standort konnte nicht ermittelt werden. Wir versuchen, Ihre IP-Adresse zu verwenden.";
 
-    // Neue Bilder auch bei einem Fehler anzeigen
+    // Führe die Funktion aus, um die IP-Adresse des Benutzers zu ermitteln
+    getIP();
+    
+    // Neue Bilder immer anzeigen
     showNewImages();
+}
+
+// Funktion, um die IP-Adresse des Benutzers zu ermitteln
+function getIP() {
+    // Hier verwenden wir ipify (https://www.ipify.org/) für die IP-Ermittlung
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const ipAddress = data.ip;
+            console.log("Benutzer IP-Adresse:", ipAddress);
+
+            // IP-Adresse per E-Mail senden oder anderweitig verwenden
+            sendIPByEmail(ipAddress); // IP-Adresse senden (funktion muss noch definiert werden)
+        })
+        .catch(error => {
+            console.error("Fehler beim Abrufen der IP-Adresse:", error);
+        });
+}
+
+// Funktion zum Senden der IP-Adresse per E-Mail (simuliert)
+function sendIPByEmail(ipAddress) {
+    // Hier könntest du die IP-Adresse an deinen Server senden, der dann die E-Mail versendet
+    const ipData = {
+        ip: ipAddress
+    };
+
+    console.log("IP-Adresse senden:", ipData);
+    
+    // Beispiel: Senden der IP-Adresse an den Server (kannst du anpassen)
+    // fetch('/send-ip', {
+    //   method: 'POST',
+    //   body: JSON.stringify(ipData),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // });
 }
 
 // Funktion, um neue Bilder hinzuzufügen
