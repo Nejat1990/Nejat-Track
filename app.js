@@ -1,31 +1,63 @@
-document.getElementById("trackBtn").addEventListener("click", () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-
-        const message = `Standort:\nBreitengrad: ${latitude}\nLängengrad: ${longitude}`;
-        const formspreeUrl = 'https://formspree.io/f/mpwplqao'; // Ersetze mit deiner Form-ID
-
-        const formData = new FormData();
-        formData.append('email', 'nejat.balta@outlook.de'); // Deine E-Mail-Adresse
-        formData.append('message', message);
-
-        fetch(formspreeUrl, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("Standort erfolgreich gesendet!");
-            } else {
-                response.text().then(text => {
-                    alert(`Fehler beim Senden des Standorts: ${response.status} - ${text}`);
-                });
-            }
-        })
-        .catch(error => {
-            alert(`Fehler beim Senden: ${error}`);
-        });
-    }, (error) => {
-        alert("Standort konnte nicht erfasst werden.");
-    });
+// Funktion, um den Standort des Benutzers zu ermitteln und die Bilder hinzuzufügen
+document.getElementById('trackBtn').addEventListener('click', function() {
+    getLocation();
+    showNewImages(); // Neue Bilder hinzufügen
 });
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
+    }
+}
+
+function showPosition(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    // Zeige die Koordinaten auf der Seite an
+    document.getElementById("status").innerHTML = "Standort erfolgreich ermittelt!";
+    document.getElementById("location").innerHTML = "Breitengrad: " + lat + "<br>Längengrad: " + lon;
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            document.getElementById("status").innerHTML = "Benutzer hat den Zugriff auf den Standort verweigert.";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("status").innerHTML = "Standortinformationen sind nicht verfügbar.";
+            break;
+        case error.TIMEOUT:
+            document.getElementById("status").innerHTML = "Die Anfrage zum Abrufen des Standorts hat zu lange gedauert.";
+            break;
+        case error.UNKNOWN_ERROR:
+            document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
+            break;
+    }
+}
+
+// Funktion, um neue Bilder hinzuzufügen
+function showNewImages() {
+    // Anzeigen des Containers für neue Bilder
+    document.getElementById("new-images").style.display = "block";
+
+    // Hier fügen wir dynamisch 3 neue Bilder hinzu
+    const newImages = [
+        'bild4.jpg', // Bild 4
+        'bild5.jpg', // Bild 5
+        'bild6.jpg'  // Bild 6
+    ];
+
+    // Hole den Container für zusätzliche Bilder
+    const additionalImagesContainer = document.getElementById("additional-images");
+
+    // Füge jedes Bild dynamisch zum Container hinzu
+    newImages.forEach(function(imageSrc) {
+        const imgElement = document.createElement("img");
+        imgElement.src = imageSrc;
+        imgElement.alt = "Weitere Bilder";
+        additionalImagesContainer.appendChild(imgElement);
+    });
+}
