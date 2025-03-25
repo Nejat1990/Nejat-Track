@@ -26,21 +26,30 @@
     display: none; /* Standardmäßig ausgeblendet */
 }
 
+/* Container für die neuen verpixelten Bilder */
+#additional-images {
+    display: grid; /* Moderne Grid-Darstellung */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Flexibles Layout */
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Verpixelte Bilder */
 .pixelated {
-    width: 100%;
-    max-width: 300px;
+    width: 100%; /* Automatische Anpassung der Breite */
+    max-width: 300px; /* Maximale Breite */
     height: auto;
-    filter: blur(30px);
-    pointer-events: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: filter 0.3s ease-in-out;
+    filter: blur(15px); /* Verpixelungseffekt */
+    pointer-events: none; /* Keine Interaktion mit verpixelten Bildern */
+    border-radius: 12px; /* Abgerundete Ecken für ein modernes Aussehen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sanfte Schatten */
+    transition: filter 0.3s ease-in-out; /* Sanfter Übergang bei Entpixelung */
 }
 
 /* Entpixelungseffekt nach Standort-Freigabe */
 .pixelated.clear {
-    filter: none; /* Entfernt die Verpixelung */
-    pointer-events: all;
+    filter: none; /* Verpixelung entfernen */
+    pointer-events: all; /* Aktiviert die Interaktion mit dem Bild */
 }
 
 /* Nachricht & Fehler-Status */
