@@ -1,18 +1,29 @@
-/* Verpixelte Bilder */
+/* Stil für die Bilder */
 .pixelated {
-    filter: blur(25px);  /* Verpixelungseffekt */
-    pointer-events: none; /* Verhindert Interaktionen mit den verpixelten Bildern */
+    width: 300px; /* Feste Breite */
+    height: auto; /* Höhe wird automatisch angepasst */
+    filter: blur(20px) contrast(50%) brightness(50%) grayscale(100%); /* Starke Verpixelung */
+    pointer-events: none; /* Verhindert Interaktionen mit verpixelten Bildern */
+    border-radius: 10px; /* Optional: Abgerundete Ecken */
 }
 
-/* Optionale Klasse für den Container der neuen Bilder */
+/* Container für Bilder */
+.image-container {
+    display: flex;
+    justify-content: center; /* Bilder mittig ausrichten */
+    gap: 15px; /* Abstand zwischen den Bildern */
+    flex-wrap: wrap; /* Falls die Bilder nicht in eine Zeile passen, umbrechen */
+}
+
+/* Neue Bilder nach Standortfreigabe */
 #new-images {
-    display: none; /* Standardmäßig die neuen Bilder ausblenden */
+    display: none; /* Standardmäßig ausgeblendet */
 }
 
 #message {
-    display: none; /* Nachricht erst anzeigen, wenn Standort ermittelt wurde */
+    display: none; /* Nachricht erst sichtbar machen, wenn Standort ermittelt wurde */
 }
 
 #status {
-    color: red; /* Optional: Fehlermeldung wird rot angezeigt */
+    color: red; /* Fehlermeldung in Rot */
 }
