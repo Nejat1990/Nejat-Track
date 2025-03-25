@@ -1,6 +1,6 @@
 /* Verpixelte Bilder */
 .pixelated {
-    filter: blur(10px);  /* Verpixelungseffekt */
+    filter: blur(25px);  /* Verpixelungseffekt */
     pointer-events: none; /* Verhindert Interaktionen mit den verpixelten Bildern */
 }
 
