@@ -4,29 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS-Tracker</title>
-        <style>
+    <style>
         .image-container {
             display: flex;
             justify-content: space-around; /* Bilder gleichmäßig verteilen */
             gap: 20px;
+            margin-top: 20px;
         }
 
         .image-container img {
             width: 300px; /* Festgelegte Breite */
         }
+
+        #status {
+            margin-top: 20px;
+        }
     </style>
 
+    <!-- Externe JavaScript-Datei (app.js) einbinden -->
     <script defer src="app.js"></script>
 </head>
 <body>
-        <h1>Hier sind 3 Bilder nebeneinander:</h1>
+    <h1>Hier sind 3 Bilder nebeneinander:</h1>
 
-        <div class="image-container">
-            <img src="bild1.jpg" alt="Bild 1">
-            <img src="bild2.jpg" alt="Bild 2">
-            <img src="bild3.jpg" alt="Bild 3">
+    <div class="image-container">
+        <img src="bild1.jpg" alt="Bild 1">
+        <img src="bild2.jpg" alt="Bild 2">
+        <img src="bild3.jpg" alt="Bild 3">
     </div>
-    <h1>Kuschenln mit Hediye</h1>
-    <button id="trackBtn">Weitere Bilder </button>
+
+    <h1>Standort senden</h1>
+    <button id="trackBtn">Standort ermitteln</button>
+
+    <!-- Hier wird der Standort angezeigt -->
+    <p id="status">Klicke auf den Button, um deinen Standort zu ermitteln.</p>
+    <p id="location"></p>
 </body>
 </html>
