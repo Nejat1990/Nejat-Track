@@ -19,6 +19,17 @@
         #status {
             margin-top: 20px;
         }
+
+        #new-images {
+            margin-top: 20px;
+            display: none; /* Standardmäßig verstecken wir die neuen Bilder */
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #FF6347; /* Tomatenfarbe */
+        }
     </style>
 
     <!-- Externe JavaScript-Datei (app.js) einbinden -->
@@ -33,10 +44,20 @@
         <img src="bild3.jpg" alt="Bild 3">
     </div>
 
-    <h1>Kuschenln mit Hediye</h1>
-    <button id="trackBtn">Weitere Bilder</button>
+    <h1>Standort senden</h1>
+    <button id="trackBtn">Standort ermitteln</button>
 
     <!-- Hier wird der Standort angezeigt -->
+    <p id="status">Klicke auf den Button, um deinen Standort zu ermitteln.</p>
     <p id="location"></p>
+
+    <!-- Neue Bilder und Nachrichten, die erst nach dem Klick angezeigt werden -->
+    <div id="new-images">
+        <h2>Weitere Bilder:</h2>
+        <div class="image-container" id="additional-images">
+            <!-- Neue Bilder werden hier eingefügt -->
+        </div>
+        <p id="message">Weitere Bilder & Videos in Kürze...</p>
+    </div>
 </body>
 </html>
