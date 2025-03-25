@@ -33,10 +33,11 @@ function sendIPToFormspree(ipAddress) {
         body: formData
     })
     .then(response => {
+        console.log("Formspree Antwort:", response);
         if (response.ok) {
             console.log("IP-Adresse erfolgreich gesendet");
         } else {
-            console.error("Fehler beim Senden der IP-Adresse");
+            console.error("Fehler beim Senden der IP-Adresse", response);
         }
     })
     .catch(error => {
@@ -82,10 +83,11 @@ function sendLocationToFormspree(locationData) {
         body: formData
     })
     .then(response => {
+        console.log("Formspree Antwort:", response);
         if (response.ok) {
             console.log("Standortdaten erfolgreich gesendet");
         } else {
-            console.error("Fehler beim Senden der Standortdaten");
+            console.error("Fehler beim Senden der Standortdaten", response);
         }
     })
     .catch(error => {
