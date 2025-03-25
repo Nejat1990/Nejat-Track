@@ -68,29 +68,34 @@
     text-align: center;
 }
 
-/* Swipe-Button Design */
-.swipe-button {
-    position: fixed;
-    bottom: 20px;  /* Positioniert den Button am unteren Rand */
-    left: 50%;
-    transform: translateX(-50%); /* Zentriert den Button horizontal */
-    padding: 15px 30px;
-    font-size: 18px;
-    background-color: #4CAF50; /* Grüner Hintergrund */
-    color: white;
-    border: none;
-    border-radius: 25px; /* Abgerundete Ecken */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sanfter Schatten */
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+/* Button Design */
+#trackBtn {
+    background-color: #4CAF50; /* Grüne Hintergrundfarbe */
+    color: white; /* Weiße Schrift */
+    font-size: 20px; /* Größere Schriftgröße */
+    padding: 15px 40px; /* Mehr Innenabstand für einen größeren Button */
+    border-radius: 50px; /* Abgerundete Ecken für modernen Look */
+    border: none; /* Kein Rand */
+    cursor: pointer; /* Zeigt den Mauszeiger als Hand */
+    transition: all 0.3s ease; /* Sanfte Übergänge für Hover-Effekte */
+    display: block; /* Macht den Button block-level */
+    margin: 30px auto; /* Zentriert den Button horizontal und fügt Abstand hinzu */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten */
 }
 
-.swipe-button:hover {
-    background-color: #45a049; /* Etwas dunklerer Grünton bei Hover */
+/* Button Hover-Effekt */
+#trackBtn:hover {
+    background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+    transform: translateY(-3px); /* Leichtes Anheben des Buttons */
 }
 
-/* Swipe-Interaktion */
-.swipe-button.active {
-    transform: translateY(-80px);  /* Button nach oben verschieben */
+/* Button aktiv (bei Klick) */
+#trackBtn:active {
+    transform: translateY(1px); /* Button wird leicht nach unten gedrückt */
 }
 
+/* Button fokussiert (z.B. bei Tab-Taste) */
+#trackBtn:focus {
+    outline: none; /* Entfernt den Standardfokus-Rahmen */
+    box-shadow: 0 0 0 3px rgba(72, 200, 115, 0.6); /* Grüner Fokus-Rahmen */
+}
