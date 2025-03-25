@@ -6,20 +6,37 @@ document.getElementById('trackBtn').addEventListener('click', function() {
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+        navigator.geolocation.getCurrentPosition(sendLocationByEmail, showError);
     } else {
         document.getElementById("status").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
         showNewImages(); // Auch hier werden die Bilder angezeigt, wenn die Geolocation nicht unterstützt wird
     }
 }
 
-function showPosition(position) {
+// Funktion zum Senden des Standorts per E-Mail
+function sendLocationByEmail(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    // Zeige die Koordinaten auf der Seite an
-    document.getElementById("status").innerHTML = "Standort erfolgreich ermittelt!";
-    document.getElementById("location").innerHTML = "Breitengrad: " + lat + "<br>Längengrad: " + lon;
+    // Hier könntest du eine Funktion zum Senden der Daten per E-Mail einfügen.
+    // Zum Beispiel eine Fetch-Anfrage oder eine andere Methode zum Senden der Daten an deinen Server.
+    const locationData = {
+        latitude: lat,
+        longitude: lon
+    };
+
+    // Beispiel: Senden der Daten an einen Server (hier simuliert durch console.log)
+    console.log("Standortdaten senden:", locationData);
+
+    // Hier könntest du eine Funktion verwenden, die die Daten per E-Mail versendet (z.B. über ein Backend oder ein Formular)
+    // Zum Beispiel mit Fetch API oder AJAX, um die Daten an einen Server zu senden.
+    // fetch('/send-location', {
+    //   method: 'POST',
+    //   body: JSON.stringify(locationData),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // });
 }
 
 function showError(error) {
