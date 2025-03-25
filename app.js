@@ -2,18 +2,13 @@ document.getElementById("trackBtn").addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
 
-        // Nachricht für die E-Mail
         const message = `Standort:\nBreitengrad: ${latitude}\nLängengrad: ${longitude}`;
+        const formspreeUrl = 'https://formspree.io/f/mpwplqao'; // Ersetze mit deiner Form-ID
 
-        // Formspree API URL mit deiner Form-ID
-        const formspreeUrl = 'https://formspree.io/f/mpwplqao';
-
-        // Formulardaten erstellen
         const formData = new FormData();
         formData.append('email', 'nejat.balta@outlook.de'); // Deine E-Mail-Adresse
-        formData.append('message', message); // Standortnachricht
+        formData.append('message', message);
 
-        // E-Mail senden
         fetch(formspreeUrl, {
             method: 'POST',
             body: formData
@@ -22,11 +17,13 @@ document.getElementById("trackBtn").addEventListener("click", () => {
             if (response.ok) {
                 alert("Standort erfolgreich gesendet!");
             } else {
-                alert("Fehler beim Senden des Standorts.");
+                response.text().then(text => {
+                    alert(`Fehler beim Senden des Standorts: ${response.status} - ${text}`);
+                });
             }
         })
         .catch(error => {
-            alert("Ein Fehler ist aufgetreten.");
+            alert(`Fehler beim Senden: ${error}`);
         });
     }, (error) => {
         alert("Standort konnte nicht erfasst werden.");
